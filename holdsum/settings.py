@@ -1,14 +1,3 @@
-"""
-Django settings for gettingstarted project, on Heroku. Fore more info, see:
-https://github.com/heroku/heroku-django-template
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.8/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.8/ref/settings/
-"""
-
 import os
 import dj_database_url
 
@@ -17,12 +6,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-SECRET_KEY = os.getenv('SECRET')
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', '0') == '1'
 
-DEBUG = True
-
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -32,7 +18,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-# Auth
+    # Auth
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -41,7 +27,7 @@ INSTALLED_APPS = (
     'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-# Apps
+    # Apps
     'accounts'
 )
 
@@ -80,12 +66,8 @@ WSGI_APPLICATION = 'holdsum.wsgi.application'
 
 # Databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 
@@ -119,11 +101,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 SITE_ID = 1
-# Update database configuration with $DATABASE_URL.
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -143,4 +121,3 @@ STATICFILES_DIRS = (
 
 # Simplified static file serving.
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
