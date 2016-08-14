@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from fernet_fields import EncryptedCharField, EncryptedDateField, EncryptedIntegerField
+from fernet_fields import EncryptedDateField, EncryptedIntegerField
+from localflavor.us.models import USStateField, USZipCodeField
+
+from .fields import EncryptedSSNField
 
 
 class Profile(models.Model):
@@ -8,9 +11,9 @@ class Profile(models.Model):
     DOB = EncryptedDateField()
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    zipCode = models.CharField(max_length=20)
-    SSN = EncryptedCharField(max_length=15)
+    state = USStateField()
+    zipCode = USZipCodeField()
+    SSN = EncryptedSSNField()
     STATUS_CHOICES = (
         ('pending', 'Pending Approval'),
         ('approved', 'Approved'),
@@ -29,7 +32,7 @@ class Profile(models.Model):
 
 
 class Employment(models.Model):
-    employer = models.CharField(max_length=100, default="")
+    employer = models.CharField(max_length=100, blank=True)
     role = models.CharField(max_length=100)
 
     # employer address
