@@ -2,6 +2,7 @@ from django.conf import settings
 import requests
 
 FINAPP_ID = 10003620  # Instant Account Verification
+HEADERS = {'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 
 
 class YodleeService:
@@ -9,7 +10,7 @@ class YodleeService:
 
     def _make_request(self, endpoint, data):
         url = self.REST_URL + endpoint
-        r = requests.post(url, data)
+        r = requests.post(url, data, headers=HEADERS)
         r.raise_for_status()
         return r.json()
 
