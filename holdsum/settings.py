@@ -8,6 +8,9 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', '0') == '1'
+YODLEE_COBRAND_LOGIN = os.getenv('YODLEE_COBRAND_LOGIN')
+YODLEE_COBRAND_PASSWORD = os.getenv('YODLEE_COBRAND_PASSWORD')
+YODLEE_REST_URL = os.getenv('YODLEE_REST_URL')
 
 
 INSTALLED_APPS = (
