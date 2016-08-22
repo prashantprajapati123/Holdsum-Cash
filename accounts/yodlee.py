@@ -12,7 +12,10 @@ class YodleeService:
         url = self.REST_URL + endpoint
         r = requests.post(url, data, headers=HEADERS)
         r.raise_for_status()
-        return r.json()
+        json = r.json()
+        if 'Error' in json:
+            raise requests.HTTPError(response=r)
+        return json
 
     def coblogin(self):
         endpoint = '/authenticate/coblogin'
