@@ -53,4 +53,9 @@ class YodleeService:
         infos = self._make_request(endpoint, data)['finappAuthenticationInfos']
         return infos['token'] if isinstance(infos, dict) else infos[0]['token']  # taken from the sample app
 
+    def get_token(self, user):
+        cob_session = self.coblogin()
+        user_session = self.login(user, cob_session=cob_session)
+        return self.token(user_session, cob_session)
+
 yodlee = YodleeService()
