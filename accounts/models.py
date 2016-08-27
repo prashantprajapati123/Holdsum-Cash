@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from fernet_fields import EncryptedDateField, EncryptedIntegerField
+from fernet_fields import EncryptedDateField, EncryptedIntegerField, EncryptedCharField
 from localflavor.us.models import USStateField, USZipCodeField
 
 from .fields import EncryptedSSNField
@@ -13,6 +13,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=20)
     state = USStateField()
     zipCode = USZipCodeField()
+    yodleepw = EncryptedCharField(max_length=140)
     SSN = EncryptedSSNField()
     STATUS_CHOICES = (
         ('pending', 'Pending Approval'),

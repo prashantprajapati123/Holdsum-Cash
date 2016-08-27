@@ -1,8 +1,23 @@
+import itertools
+import random
+import string
+
 from django.conf import settings
 import requests
 
 FINAPP_ID = 10003620  # Instant Account Verification
 HEADERS = {'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+
+
+def gen_password():
+    alphabet = string.ascii_lowercase
+    numbers = string.digits
+
+    letters = ''.join([random.choice(alphabet) for _ in range(25)])
+    digits = ''.join([random.choice(numbers) for _ in range(5)])
+    # Yodlee does not allow passwords to have consecutive characters
+    password = ''.join(k for (k, g) in itertools.groupby(letters + digits))
+    return password
 
 
 class YodleeService:
@@ -30,7 +45,7 @@ class YodleeService:
 
         data = {'cobSessionToken': cob_session,
                 'login': user.username,
-                'password': None}  # TODO
+                'password': user.yodleepw}
         return self._make_request(endpoint, data)['userContext']['conversationCredentials']['sessionToken']
 
     def register3(self, user, cob_session=None):
@@ -40,7 +55,7 @@ class YodleeService:
 
         data = {'cobSessionToken': cob_session,
                 'userCredentials.loginName': user.username,
-                'userCredentials.password': None,  # TODO
+                'userCredentials.password': user.yodleepw,
                 'userCreddentials.objectInstanceType': 'com.yodlee.ext.login.PasswordCredentials',
                 'userProfile.emailAddress': user.email}
         return self._make_request(endpoint, data)['userContext']['conversationCredentials']['sessionToken']
