@@ -9,14 +9,24 @@ FINAPP_ID = 10003620  # Instant Account Verification
 HEADERS = {'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 
 
-def gen_password():
+# Pass in a random who's seed we control during testing
+def gen_password(rand=None):
+    if rand is None:
+        rand = random
+
     alphabet = string.ascii_lowercase
     numbers = string.digits
 
-    letters = ''.join([random.choice(alphabet) for _ in range(25)])
-    digits = ''.join([random.choice(numbers) for _ in range(5)])
+    letters = ''.join([rand.choice(alphabet) for _ in range(25)])
+    digits = ''.join([rand.choice(numbers) for _ in range(5)])
+    return letters + digits
+
+
+def get_yodlee_password(pw=None):
+    if pw is None:
+        pw = gen_password()
     # Yodlee does not allow passwords to have consecutive characters
-    password = ''.join(k for (k, g) in itertools.groupby(letters + digits))
+    password = ''.join(k for (k, _) in itertools.groupby(pw))
     return password
 
 

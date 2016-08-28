@@ -31,6 +31,9 @@ class Profile(models.Model):
     employed = models.CharField(max_length=30, choices=EMPLOYMENT_CHOICES, default='unemp')
     employment = models.OneToOneField('Employment', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '{user.first_name}, {user.last_name}'.format(user=self.user)
+
 
 class Employment(models.Model):
     employer = models.CharField(max_length=100, blank=True)
