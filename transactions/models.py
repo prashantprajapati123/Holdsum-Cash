@@ -59,7 +59,7 @@ class QuestionResponse(models.Model):
         if not self.score:
             self.score = self.choice.question.score
         if not self.weight:
-            self.weight = self.choice.question.weight
+            self.weight = self.choice.weight
         super().save(**kwargs)
 
     @property
