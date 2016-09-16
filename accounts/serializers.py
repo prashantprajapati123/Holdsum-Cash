@@ -1,17 +1,9 @@
 from rest_framework import serializers
 
-from .models import Profile, Employment
-
-
-class EmploymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employment
-        fields = ("employer", "role", "address", "city", "state", "zipCode",
-                  "monthly_income", "income_frequency", "next_pay_date", )
+from .models import Profile
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    employment = EmploymentSerializer(required=False)
     user = serializers.Field(required=False)
 
     class Meta:

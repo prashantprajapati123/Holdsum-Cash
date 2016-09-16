@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from fernet_fields import EncryptedDateField, EncryptedIntegerField
+from fernet_fields import EncryptedDateField
 from localflavor.us.models import USStateField, USZipCodeField
 
 from .fields import EncryptedSSNField
@@ -28,23 +28,6 @@ class Profile(models.Model):
         ('stu', 'Student'),
     )
     employed = models.CharField(max_length=30, choices=EMPLOYMENT_CHOICES, default='unemp')
-    employment = models.OneToOneField('Employment', on_delete=models.CASCADE)
 
     def __str__(self):
         return '{user.first_name}, {user.last_name}'.format(user=self.user)
-
-
-class Employment(models.Model):
-    employer = models.CharField(max_length=100, blank=True)
-    role = models.CharField(max_length=100)
-
-    # employer address
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    zipCode = models.CharField(max_length=20)
-
-    # income data
-    monthly_income = EncryptedIntegerField(default=0)
-    income_frequency = models.DurationField()
-    next_pay_date = EncryptedDateField()
