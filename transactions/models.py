@@ -16,7 +16,8 @@ LOAN_STATES = Choices(
 
 
 class Questionnaire(models.Model):
-    pass
+    def __str__(self):
+        return 'Main Questionnaire'
 
 
 class Question(TimeStampedModel):
