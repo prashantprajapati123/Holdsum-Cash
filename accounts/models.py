@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from fernet_fields import EncryptedDateField
+from fernet_fields import EncryptedCharField, EncryptedDateField
 from localflavor.us.models import USStateField, USZipCodeField
 
 from .fields import EncryptedSSNField
@@ -14,6 +14,8 @@ class Profile(models.Model):
     state = USStateField()
     zipCode = USZipCodeField()
     SSN = EncryptedSSNField()
+    plaid_public_token = EncryptedCharField(max_length=200, blank=True)
+    plaid_access_token = EncryptedCharField(max_length=200, blank=True)
     STATUS_CHOICES = (
         ('pending', 'Pending Approval'),
         ('approved', 'Approved'),

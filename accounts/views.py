@@ -1,10 +1,18 @@
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+import logging
+from django.conf import settings
+from django.http.response import HttpResponse, JsonResponse
 
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from plaid import Client
+from plaid.errors import PlaidError
 from rest_auth.registration.views import SocialLoginView
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import UserProfileSerializer
+
+log = logging.getLogger('plaid')
+Client.config({'url': settings.PLAID_ENDPOINT})
 
 
 class FacebookLogin(SocialLoginView):
@@ -21,3 +29,18 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+def plaid_token(request):
+    client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET)
+    try:
+        client.exchange_token(request.POST['token'])  # this populates client.access_token
+
+        request.user.plaid_access_token = client.access_token
+        request.user.plaid_public_token = request.POST['token']
+        request.user.save()
+        client.upgrade('connect')
+        return HttpResponse(status=204)
+    except PlaidError as e:
+        log.warning('Issue with Plaid! Code %s, Message: %s', e.code, e.message)
+        return JsonResponse({'error': 'Something went wrong.'}, status=500)

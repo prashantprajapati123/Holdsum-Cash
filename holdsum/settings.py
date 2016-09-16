@@ -8,6 +8,9 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', '0') == '1'
+PLAID_CLIENT_ID = os.environ['PLAID_CLIENT_ID']
+PLAID_SECRET = os.environ['PLAID_SECRET']
+PLAID_ENDPOINT = os.environ['PLAID_ENDPOINT']
 
 
 INSTALLED_APPS = (
