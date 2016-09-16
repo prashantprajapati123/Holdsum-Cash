@@ -60,6 +60,9 @@ class LoanRequestAdmin(admin.ModelAdmin):
         'score',
     ]
 
+    def has_add_permission(self, request):
+        return False
+
     def score(self, obj):
         return '%g / 100' % obj.total_questions_score
     score.short_description = 'Total Score'
