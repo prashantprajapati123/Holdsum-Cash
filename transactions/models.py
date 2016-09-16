@@ -14,6 +14,13 @@ LOAN_STATES = Choices(
     ('paid_in_full', 'paid_in_full'),
 )
 
+PLAID_STATES = Choices(
+    ('failed', 'Failed'),
+    ('no_token', 'User Not Connected'),
+    ('pending', 'Pending'),
+    ('success', 'Success'),
+)
+
 
 class Questionnaire(models.Model):
     def __str__(self):
@@ -71,6 +78,9 @@ class LoanRequest(TimeStampedModel):
     borrower = models.ForeignKey('accounts.Profile', models.PROTECT)
     amount = models.DecimalField(decimal_places=2, max_digits=7)
     state = models.CharField(max_length=30, choices=LOAN_STATES, default=LOAN_STATES.pending)
+
+    plaid_score = models.SmallIntegerField(null=True, blank=True)
+    plaid_state = models.CharField(max_length=100, default=PLAID_STATES.pending)
 
     def __str__(self):
         return '$%g request from %s' % (self.amount, self.borrower.user.username)

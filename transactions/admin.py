@@ -53,16 +53,18 @@ class LoanRequestAdmin(admin.ModelAdmin):
         'state',
     )
 
-    readonly_fields = [
+    readonly_fields = (
         'borrower',
         'amount',
         'state',
-        'score',
-    ]
+        'plaid_state',
+        'plaid_score',
+        'questions_score',
+    )
 
     def has_add_permission(self, request):
         return False
 
-    def score(self, obj):
+    def questions_score(self, obj):
         return '%g / 100' % obj.total_questions_score
-    score.short_description = 'Total Score'
+    questions_score.short_description = 'Questions Score'
