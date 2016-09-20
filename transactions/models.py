@@ -2,24 +2,9 @@ from decimal import Decimal as D
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
-
-LOAN_STATES = Choices(
-    ('rejected', 'rejected'),
-    ('pending', 'pending'),
-    ('awaiting_transfer', 'awaiting_transfer'),
-    ('in_repayment', 'in_repayment'),
-    ('paid_in_full', 'paid_in_full'),
-)
-
-PLAID_STATES = Choices(
-    ('failed', 'Failed'),
-    ('no_token', 'User Not Connected'),
-    ('pending', 'Pending'),
-    ('success', 'Success'),
-)
+from .constants import LOAN_STATES, PLAID_STATES
 
 
 class Questionnaire(models.Model):

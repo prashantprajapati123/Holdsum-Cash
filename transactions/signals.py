@@ -3,13 +3,12 @@ from django.conf import settings
 
 from plaid.errors import PlaidError
 
-from .models import PLAID_STATES
-from .views import Client
+from accounts.plaidclient import Client
+from .constants import PLAID_STATES, MAXIMUM_INSUFFICENT_SCORE
 
 
 log = logging.getLogger('plaid')
 INSUFFICIENT_FUNDS_CATEGORY_ID = '10007000'
-MAXIMUM_INSUFFICENT_SCORE = -15
 COUNT_INSUFFICIENT_TO_SCORE = {
     0: 15,
     1: 12,
@@ -25,7 +24,7 @@ def get_plaid_modifier(transactions):
     return COUNT_INSUFFICIENT_TO_SCORE.get(len(transactions), MAXIMUM_INSUFFICENT_SCORE)
 
 
-def on_create_plaid(created=False, instance=None):
+def on_create_plaid(created=False, instance=None, **kwargs):
     if not created:
         return
 

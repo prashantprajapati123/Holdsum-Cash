@@ -3,16 +3,15 @@ from django.conf import settings
 from django.http.response import HttpResponse, JsonResponse
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from plaid import Client
 from plaid.errors import PlaidError
 from rest_auth.registration.views import SocialLoginView
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from .plaidclient import Client
 from .serializers import UserProfileSerializer
 
 log = logging.getLogger('plaid')
-Client.config({'url': settings.PLAID_ENDPOINT})
 
 
 class FacebookLogin(SocialLoginView):
