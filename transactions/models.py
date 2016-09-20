@@ -56,16 +56,20 @@ class QuestionResponse(models.Model):
 
     @property
     def total(self):
+        # the self.id check is because this is display in an inline and
+        # a dummy row is created, this is actually readonly though so no harm done
         return (self.weight / D(5)) * self.score if self.id else None
 
 
 class LoanRequest(TimeStampedModel):
     borrower = models.ForeignKey('accounts.Profile', models.PROTECT)
     amount = models.DecimalField(decimal_places=2, max_digits=7)
-    state = models.CharField(max_length=30, choices=LOAN_STATES, default=LOAN_STATES.pending)
+    state = models.CharField(max_length=30, choices=LOAN_STATES,
+                             default=LOAN_STATES.pending)
 
     plaid_score = models.SmallIntegerField(null=True, blank=True)
-    plaid_state = models.CharField(max_length=100, choices=PLAID_STATES, default=PLAID_STATES.pending)
+    plaid_state = models.CharField(max_length=100, choices=PLAID_STATES,
+                                   default=PLAID_STATES.pending)
 
     def __str__(self):
         return '$%g request from %s' % (self.amount, self.borrower.user.username)
