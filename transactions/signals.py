@@ -9,6 +9,7 @@ from .views import Client
 
 log = logging.getLogger('plaid')
 INSUFFICIENT_FUNDS_CATEGORY_ID = '10007000'
+MAXIMUM_INSUFFICENT_SCORE = -15
 COUNT_INSUFFICIENT_TO_SCORE = {
     0: 15,
     1: 12,
@@ -17,6 +18,11 @@ COUNT_INSUFFICIENT_TO_SCORE = {
     4: -12,
     5: -15,
 }
+
+
+def get_plaid_modifier(transactions):
+    transactions = filter(lambda t: t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID, transactions)
+    return COUNT_INSUFFICIENT_TO_SCORE.get(len(transactions), MAXIMUM_INSUFFICENT_SCORE)
 
 
 def on_create_plaid(created=False, instance=None):
@@ -31,11 +37,7 @@ def on_create_plaid(created=False, instance=None):
                     access_token=instance.borrower.plaid_access_token)
     try:
         transactions = client.connect_get().json()
-        count_insufficent = len(filter(lambda t: t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID,
-                                       transactions))
-        plaid_score = COUNT_INSUFFICIENT_TO_SCORE.get(count_insufficent, -15)
-
-        instance.plaid_score = plaid_score
+        instance.plaid_score = get_plaid_modifier(transactions)
         instance.plaid_state = PLAID_STATES.success
         instance.save()
     except PlaidError as e:
