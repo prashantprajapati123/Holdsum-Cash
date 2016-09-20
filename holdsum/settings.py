@@ -21,7 +21,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # 3rd party
     'nested_admin',
+    'model_utils',
+    'solo',
     # Auth
     'rest_framework',
     'rest_framework.authtoken',
