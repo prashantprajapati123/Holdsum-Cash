@@ -10,6 +10,7 @@ django-localflavor==1.3
 django-model-utils==2.5.2
 django-nested-admin==3.0.10
 django-rest-auth==0.7.0
+django-solo==1.1.2
 djangorestframework==3.3.2
 gunicorn==19.4.5
 idna==2.1

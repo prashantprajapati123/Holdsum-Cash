@@ -3,13 +3,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 from model_utils.models import TimeStampedModel
+from solo.models import SingletonModel
 
 from .constants import LOAN_STATES, PLAID_STATES
 
 
-class Questionnaire(models.Model):
+class Questionnaire(SingletonModel):
     def __str__(self):
-        return 'Main Questionnaire'
+        return 'Questionnaire'
 
 
 class Question(TimeStampedModel):

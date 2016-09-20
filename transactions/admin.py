@@ -1,7 +1,7 @@
-from decimal import Decimal as D
 from django.contrib import admin
 
 import nested_admin
+from solo.admin import SingletonModelAdmin
 
 from .models import Choice, LoanRequest, Question, Questionnaire,\
     QuestionResponse
@@ -19,7 +19,7 @@ class QuestionInline(nested_admin.NestedTabularInline):
 
 
 @admin.register(Questionnaire)
-class QuestionnaireAdmin(nested_admin.NestedModelAdmin):
+class QuestionnaireAdmin(nested_admin.NestedModelAdminMixin, SingletonModelAdmin):
     inlines = [QuestionInline]
 
     def has_add_permission(self, request):
