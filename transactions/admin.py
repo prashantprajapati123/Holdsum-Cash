@@ -22,9 +22,6 @@ class QuestionInline(nested_admin.NestedTabularInline):
 class QuestionnaireAdmin(nested_admin.NestedModelAdminMixin, SingletonModelAdmin):
     inlines = [QuestionInline]
 
-    def has_add_permission(self, request):
-        return False
-
 
 class QuestionResponseInline(admin.TabularInline):
     model = QuestionResponse
