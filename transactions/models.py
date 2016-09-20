@@ -25,8 +25,8 @@ class Question(TimeStampedModel):
 class Choice(models.Model):
     question = models.ForeignKey('transactions.Question', models.CASCADE, related_name='choices')
     option = models.CharField(max_length=100)
-    weight = models.DecimalField(max_digits=4, decimal_places=2, help_text='0 - 5 for weighting the score.',
-                                 validators=[MinValueValidator(D(0), MaxValueValidator(D(5)))])
+    weight = models.DecimalField(max_digits=4, decimal_places=2, help_text='0 - 5 for weighing the score.',
+                                 validators=[MinValueValidator(D(0)), MaxValueValidator(D(5))])
     textbox = models.CharField(max_length=100, null=True, blank=True)
     is_alternative = models.BooleanField(default=False)
 
