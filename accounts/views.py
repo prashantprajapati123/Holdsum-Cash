@@ -1,6 +1,7 @@
 import logging
 from django.conf import settings
 from django.http.response import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from plaid.errors import PlaidError
@@ -30,6 +31,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
+@require_POST
 def plaid_token(request):
     client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET)
     try:
