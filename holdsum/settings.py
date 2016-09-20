@@ -114,7 +114,6 @@ SITE_ID = 1
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# Allow all host headers
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split('|')
 
 # Static files (CSS, JavaScript, Images)
@@ -129,3 +128,13 @@ STATICFILES_DIRS = (
 
 # Simplified static file serving.
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+try:
+    MOMMY_CUSTOM_FIELDS_GEN = {
+        'fernet_fields.fields.EncryptedDateField': 'model_mommy.generators.gen_date',
+        'localflavor.us.models.USZipCodeField': lambda: '90210',
+        'accounts.fields.EncryptedSSNField': lambda: '123-45-6789',
+    }
+except ImportError:
+    pass
