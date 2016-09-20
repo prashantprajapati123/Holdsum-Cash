@@ -56,11 +56,19 @@ class LoanRequestAdmin(admin.ModelAdmin):
     readonly_fields = (
         'borrower',
         'amount',
-        'state',
-        'plaid_state',
+        'get_state_display',
+        'get_plaid_state_display',
         'plaid_score',
         'questions_score',
     )
+
+    def get_state_display(self, obj):
+        return obj.get_state_display()
+    get_state_display.short_description = 'State'
+
+    def get_plaid_state_display(self, obj):
+        return obj.get_plaid_state_display()
+    get_plaid_state_display.short_description = 'Plaid State'
 
     def has_add_permission(self, request):
         return False

@@ -2,11 +2,11 @@ from model_utils import Choices
 
 
 LOAN_STATES = Choices(
-    ('rejected', 'rejected'),
-    ('pending', 'pending'),
-    ('awaiting_transfer', 'awaiting_transfer'),
-    ('in_repayment', 'in_repayment'),
-    ('paid_in_full', 'paid_in_full'),
+    ('rejected', 'Rejected'),
+    ('pending', 'Pending'),
+    ('awaiting_transfer', 'Awaiting Transfer'),
+    ('in_repayment', 'In Repayment'),
+    ('paid_in_full', 'Paid in Full'),
 )
 
 PLAID_STATES = Choices(

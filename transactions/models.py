@@ -65,7 +65,7 @@ class LoanRequest(TimeStampedModel):
     state = models.CharField(max_length=30, choices=LOAN_STATES, default=LOAN_STATES.pending)
 
     plaid_score = models.SmallIntegerField(null=True, blank=True)
-    plaid_state = models.CharField(max_length=100, default=PLAID_STATES.pending)
+    plaid_state = models.CharField(max_length=100, choices=PLAID_STATES, default=PLAID_STATES.pending)
 
     def __str__(self):
         return '$%g request from %s' % (self.amount, self.borrower.user.username)
