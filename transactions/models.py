@@ -9,8 +9,7 @@ from .constants import LOAN_STATES, PLAID_STATES
 
 
 class Questionnaire(SingletonModel):
-    def __str__(self):
-        return 'Questionnaire'
+    pass
 
 
 class Question(TimeStampedModel):
