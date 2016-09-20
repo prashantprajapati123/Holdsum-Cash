@@ -31,6 +31,7 @@ def on_create_plaid(created=False, instance=None, **kwargs):
     if not instance.borrower.plaid_access_token:
         instance.plaid_state = PLAID_STATES.no_token
         instance.save()
+        return
 
     client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET,
                     access_token=instance.borrower.plaid_access_token)
