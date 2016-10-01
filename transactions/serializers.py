@@ -17,11 +17,12 @@ class LoanRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LoanRequest
-        fields = ('borrower', 'amount', 'repayment_date', 'responses')
+        fields = ('id', 'borrower', 'amount', 'repayment_date', 'responses')
+        readonly_fields = ('id', 'borrower',)
 
     def create(self, data):
         responses = data.pop('responses')
-        lr = LoanRequest.objects.create(data)
+        lr = LoanRequest.objects.create(**data)
         for response in responses:
             QuestionResponse.objects.create(
                 request=lr,

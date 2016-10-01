@@ -68,3 +68,23 @@ class LoanRequestAPITests(UserAPITestCase):
     def test_requires_post(self):
         response = self.auth_get(self.url)
         self.assertEqual(response.status_code, 405)
+
+    def test_creating_loan_request(self):
+        data = {
+            'repayment_date': '2016-11-30',
+            'amount': '500',
+            'responses': [
+                {'choice': 3},
+                {'choice': 5, 'textbox': 'Fannie Mae'},
+                {'choice': 8},
+                {'choice': 11},
+                {'choice': 17},
+                {'choice': 27}
+            ]
+        }
+        response = self.auth_post(self.url, data)
+        self.assertEqual(response.status_code, 201)
+
+        lr = LoanRequest.objects.get(id=response.data['id'])
+        self.assertEqual(len(lr.responses.all()), 6)
+        self.assertEqual(lr.borrower, self.user.profile)
