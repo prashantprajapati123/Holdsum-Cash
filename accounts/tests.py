@@ -1,4 +1,4 @@
-from unittest.mock import patch, MagicMock, PropertyMock
+from unittest.mock import MagicMock, patch
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -44,7 +44,7 @@ class PlaidTokenTests(TestCase):
         with patch('accounts.views.Client', autospec=True) as mock_client:
 
             client = MagicMock(autospec=True)
-            type(client).access_token = PropertyMock(return_value='tok123')
+            client.access_token = 'tok123'
             mock_client.return_value = client
 
             response = PlaidTokenView.as_view()(request)
