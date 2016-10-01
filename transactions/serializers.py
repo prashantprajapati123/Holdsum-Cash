@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from .fields import CurrentUserProfileDefault
 from .models import LoanRequest, QuestionResponse
 
 
@@ -11,7 +12,7 @@ class QuestionResponseSerializer(serializers.ModelSerializer):
 
 
 class LoanRequestSerializer(serializers.ModelSerializer):
-    borrower = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    borrower = serializers.HiddenField(default=CurrentUserProfileDefault())
     responses = QuestionResponseSerializer(many=True)
 
     class Meta:
