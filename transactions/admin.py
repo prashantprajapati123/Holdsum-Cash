@@ -48,11 +48,13 @@ class LoanRequestAdmin(admin.ModelAdmin):
         'borrower',
         'amount',
         'state',
+        'repayment_date',
     )
 
     readonly_fields = (
         'borrower',
         'amount',
+        'repayment_date',
         'get_state_display',
         'get_plaid_state_display',
         'plaid_score',
