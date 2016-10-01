@@ -1,13 +1,27 @@
-from unittest.mock import MagicMock, patch
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from unittest.mock import MagicMock, patch
 
 from model_mommy import mommy
 from plaid.errors import PlaidError
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from .plaidclient import Client
 from .views import PlaidTokenView
+
+
+class UserAPITests(TestCase):
+    def setUp(self):
+        super().setUp()
+        self.key = self.create_user()
+        self.user = Token.objects.get(key=self.key).user
+
+    def create_user(self):
+        url = reverse('rest_register')
+        data = dict(username='MrSmith', email='mrsmith@gmail.com',
+                    password1='loantom3', password2='loantom3')
+        return self.client.post(url, data).data['key']
 
 
 class PlaidTokenTests(TestCase):
