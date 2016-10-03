@@ -51,6 +51,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'holdsum.urls'
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
 TEMPLATES = [
     {
