@@ -27,10 +27,10 @@ class LoginView(AuthLoginView):
 class UserProfileViewSet(viewsets.ModelViewSet):
     base_name = 'profile'
     serializer_class = UserProfileSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return self.request.user.profile
+        return self.request.user
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

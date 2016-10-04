@@ -1,17 +1,32 @@
 from rest_framework import serializers
 
-from .models import Profile
+from .models import Employment, Profile, EMPLOYED
+
+
+class EmploymentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Employment
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = serializers.Field(required=False)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    employment = EmploymentSerializer(required=False)
 
     class Meta:
         model = Profile
+        fields = ('user', 'sex', 'employment_status',
+                  'address', 'city', 'state', 'zip_code')
 
     def create(self, validated_data):
-        instance = super(UserProfileSerializer, self).create(validated_data)
-        return instance
+        employment = validated_data.pop('employment', None)
+        profile = super().create(validated_data)
+        if profile.employment_status in EMPLOYED:
+            Employment.objects.create(
+                profile=profile,
+                **employment
+            )
+        return profile
 
 
 class LoginResponseSerializer(serializers.Serializer):
