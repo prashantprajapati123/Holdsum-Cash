@@ -12,3 +12,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         instance = super(UserProfileSerializer, self).create(validated_data)
         return instance
+
+
+class LoginResponseSerializer(serializers.Serializer):
+
+    def to_representation(self, obj):
+        user = obj.user
+        return {
+            'key': obj.key,
+            'has_profile': hasattr(user, 'profile'),
+            'has_plaid': bool(hasattr(user, 'profile') and
+                              user.profile.plaid_access_token)
+        }
