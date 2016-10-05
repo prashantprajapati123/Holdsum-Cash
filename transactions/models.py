@@ -62,7 +62,7 @@ class QuestionResponse(models.Model):
 
 
 class LoanRequest(TimeStampedModel):
-    borrower = models.ForeignKey('accounts.Profile', models.PROTECT)
+    borrower = models.ForeignKey('accounts.User', models.PROTECT)
     amount = models.DecimalField(decimal_places=2, max_digits=7)
     repayment_date = models.DateField()
     state = models.CharField(max_length=30, choices=LOAN_STATES,

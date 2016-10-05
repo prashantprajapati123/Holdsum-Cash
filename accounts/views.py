@@ -4,13 +4,13 @@ from django.conf import settings
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from plaid.errors import PlaidError
 from rest_auth.registration.views import SocialLoginView, LoginView as AuthLoginView
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from .plaidclient import Client
-from .serializers import UserProfileSerializer, LoginResponseSerializer
+from .serializers import LoginResponseSerializer
 
 log = logging.getLogger('plaid')
 
@@ -24,18 +24,6 @@ class LoginView(AuthLoginView):
     response_serializer = LoginResponseSerializer
 
 
-class UserProfileViewSet(viewsets.ModelViewSet):
-    base_name = 'profile'
-    serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return self.request.user
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
 class PlaidTokenView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -44,9 +32,9 @@ class PlaidTokenView(APIView):
         try:
             client.exchange_token(request.data['token'])  # this populates client.access_token
 
-            request.user.profile.plaid_access_token = client.access_token
-            request.user.profile.plaid_public_token = request.data['token']
-            request.user.profile.save()
+            request.user.plaid_access_token = client.access_token
+            request.user.plaid_public_token = request.data['token']
+            request.user.save()
 
             client.upgrade('connect')
             return Response(status=status.HTTP_204_NO_CONTENT)

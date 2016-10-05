@@ -11,6 +11,7 @@ DEBUG = os.getenv('DEBUG', '0') == '1'
 PLAID_CLIENT_ID = os.environ['PLAID_CLIENT_ID']
 PLAID_SECRET = os.environ['PLAID_SECRET']
 PLAID_ENDPOINT = os.environ['PLAID_ENDPOINT']
+AUTH_USER_MODEL = 'accounts.User'
 
 
 INSTALLED_APPS = (

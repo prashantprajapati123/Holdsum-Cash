@@ -87,4 +87,4 @@ class LoanRequestAPITests(UserAPITestCase):
 
         lr = LoanRequest.objects.get(id=response.data['id'])
         self.assertEqual(len(lr.responses.all()), 6)
-        self.assertEqual(lr.borrower, self.user.profile)
+        self.assertEqual(lr.borrower, self.user)

@@ -2,7 +2,6 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 import json
 
-from model_mommy import mommy
 from rest_framework.authtoken.models import Token
 
 
@@ -11,7 +10,6 @@ class UserAPITestCase(TestCase):
         super().setUp()
         self.key = self.create_user()
         self.user = Token.objects.get(key=self.key).user
-        mommy.make('accounts.Profile', user=self.user)
 
     def create_user(self):
         url = reverse('rest_register')

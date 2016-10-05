@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 from fernet_fields import EncryptedCharField
 from localflavor.us.models import USStateField, USZipCodeField
@@ -37,8 +37,7 @@ PAY_FREQUENCY_CHOICES = Choices(
 )
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class User(AbstractUser):
     sex = models.CharField(max_length=10, choices=GENDER_CHOICES)
 
     address = models.CharField(max_length=100)
@@ -57,11 +56,11 @@ class Profile(models.Model):
                               default=STATUS_CHOICES.pending)
 
     def __str__(self):
-        return '{user.first_name}, {user.last_name}'.format(user=self.user)
+        return '{self.first_name}, {self.last_name}'.format(self=self)
 
 
 class Employment(models.Model):
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=100)
     employer_name = models.CharField(max_length=150)
@@ -70,4 +69,4 @@ class Employment(models.Model):
     zip_code = USZipCodeField()
 
     def __str__(self):
-        return 'Employment for %s' % str(self.profile)
+        return 'Employment for %s' % str(self.user)
