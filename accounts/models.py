@@ -57,6 +57,11 @@ class User(AbstractUser):
     def __str__(self):
         return '{self.first_name}, {self.last_name}'.format(self=self)
 
+    @property
+    def completed_profile(self):
+        return all([self.sex, self.address, self.city, self.state, self.zip_code,
+                    self.license, self.zip_code])
+
 
 class Employment(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
