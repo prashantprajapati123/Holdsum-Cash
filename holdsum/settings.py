@@ -128,6 +128,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split('|')
 
 # Static files (CSS, JavaScript, Images)
 
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
