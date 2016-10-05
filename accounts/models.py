@@ -48,9 +48,9 @@ class User(AbstractUser):
     state = USStateField()
     zip_code = USZipCodeField()
 
-    monthly_income = models.DecimalField(max_digits=10, decimal_places=2)
-    next_paydate = models.DateField()
-    funds_source = models.CharField(max_length=100)
+    monthly_income = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    next_paydate = models.DateField(null=True)
+    funds_source = models.CharField(max_length=100, null=True)
     pay_frequency = models.CharField(max_length=20, choices=PAY_FREQUENCY_CHOICES)
 
     license = models.FileField(upload_to='licenses/', blank=True, null=True)
@@ -67,7 +67,8 @@ class User(AbstractUser):
 
     @property
     def completed_profile(self):
-        return all([self.sex, self.address, self.city, self.state, self.zip_code,
+        return all([self.ssn, self.sex, self.address, self.city, self.state, self.zip_code,
+                    self.monthly_income, self.next_paydate, self.funds_source, self.pay_frequency,
                     self.license, self.zip_code])
 
 
