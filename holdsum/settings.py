@@ -53,6 +53,10 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'holdsum.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+if not DEBUG:
+    EMAIL_BACKEND = 'sgbackend.SendGridBackend'
+    SENDGRID_USER = os.environ['SENDGRID_USERNAME']
+    SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
 
 TEMPLATES = [
     {
