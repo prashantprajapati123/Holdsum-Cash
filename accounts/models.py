@@ -5,6 +5,8 @@ from fernet_fields import EncryptedCharField
 from localflavor.us.models import USStateField, USZipCodeField
 from model_utils import Choices
 
+from .fields import EncryptedSSNField
+
 
 STATUS_CHOICES = Choices(
     ('pending', 'Pending Approval'),
@@ -31,19 +33,25 @@ GENDER_CHOICES = Choices(
 
 PAY_FREQUENCY_CHOICES = Choices(
     ('monthly', 'Monthly'),
-    ('every_two_weeks', 'Every Two Weeks'),
-    ('bi_weekly', 'Bi-Weekly'),
-    ('bi_monthly', 'Bi-Monthly'),
+    ('biweekly', 'Bi-Weekly'),
+    ('bimonthly', 'Bi-Monthly'),
 )
 
 
 class User(AbstractUser):
+    middle_initial = models.CharField(max_length=10)
     sex = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    ssn = EncryptedSSNField()
 
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=20)
     state = USStateField()
     zip_code = USZipCodeField()
+
+    monthly_income = models.DecimalField(max_digits=10, decimal_places=2)
+    next_paydate = models.DateField()
+    funds_source = models.CharField(max_length=100)
+    pay_frequency = models.CharField(max_length=20, choices=PAY_FREQUENCY_CHOICES)
 
     license = models.FileField(upload_to='licenses/', blank=True, null=True)
     paystubs = models.FileField(upload_to='paystubs/', blank=True, null=True)
