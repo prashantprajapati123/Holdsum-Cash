@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from unittest.mock import MagicMock, patch
 
+from model_mommy import mommy
 from plaid.errors import PlaidError
 from rest_framework.test import APIRequestFactory, force_authenticate
 
@@ -12,6 +13,7 @@ from .views import PlaidTokenView
 class PlaidTokenTests(TestCase):
     def setUp(self):
         self.url = reverse('exchange_plaid_token')
+        self.user = mommy.make('accounts.User')
         self.factory = APIRequestFactory()
 
     def test_requires_authentication(self):
