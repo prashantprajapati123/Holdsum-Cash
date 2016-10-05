@@ -97,6 +97,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'accounts.serializers.LoginResponseSerializer',
+}
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
