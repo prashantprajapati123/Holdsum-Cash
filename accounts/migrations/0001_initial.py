@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('zip_code', localflavor.us.models.USZipCodeField()),
                 ('license', models.FileField(blank=True, null=True, upload_to='licenses/')),
                 ('paystubs', models.FileField(blank=True, null=True, upload_to='paystubs/')),
-                ('employment_status', models.CharField(choices=[('unemployed', 'Unemployed'), ('selfemployed', 'Self Employed'), ('fulltime', 'Full Time'), ('parttime', 'Part Time'), ('student', 'Student')], default='unemployed', max_length=30)),
+                ('employment_status', models.CharField(choices=[('unemployed', 'Unemployed'), ('selfemployed', 'Self Employed'), ('fulltime', 'Full Time'), ('parttime', 'Part Time'), ('student', 'Student')], max_length=30)),
                 ('plaid_public_token', fernet_fields.fields.EncryptedCharField(blank=True, max_length=200)),
                 ('plaid_access_token', fernet_fields.fields.EncryptedCharField(blank=True, max_length=200)),
                 ('status', models.CharField(choices=[('pending', 'Pending Approval'), ('approved', 'Approved'), ('denied', 'Denied')], default='pending', max_length=20)),

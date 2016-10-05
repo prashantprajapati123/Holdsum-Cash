@@ -47,8 +47,7 @@ class User(AbstractUser):
 
     license = models.FileField(upload_to='licenses/', blank=True, null=True)
     paystubs = models.FileField(upload_to='paystubs/', blank=True, null=True)
-    employment_status = models.CharField(max_length=30, choices=EMPLOYMENT_CHOICES,
-                                         default=EMPLOYMENT_CHOICES.unemployed)
+    employment_status = models.CharField(max_length=30, choices=EMPLOYMENT_CHOICES)
 
     plaid_public_token = EncryptedCharField(max_length=200, blank=True)
     plaid_access_token = EncryptedCharField(max_length=200, blank=True)
