@@ -103,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'accounts.serializers.LoginResponseSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }
 
 
