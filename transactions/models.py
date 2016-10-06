@@ -73,8 +73,12 @@ class LoanRequest(TimeStampedModel):
                                    default=PLAID_STATES.pending)
 
     def __str__(self):
-        return '$%g request from %s' % (self.amount, self.borrower.user.username)
+        return '$%g request from %s' % (self.amount, self.borrower.username)
 
     @property
     def total_questions_score(self):
         return sum(r.total for r in self.responses.all())
+
+    @property
+    def fee(self):
+        return self.amount * D('.08')

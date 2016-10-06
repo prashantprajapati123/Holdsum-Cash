@@ -8,11 +8,17 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', '0') == '1'
+AUTH_USER_MODEL = 'accounts.User'
+
 PLAID_CLIENT_ID = os.environ['PLAID_CLIENT_ID']
 PLAID_SECRET = os.environ['PLAID_SECRET']
 PLAID_ENDPOINT = os.environ['PLAID_ENDPOINT']
-AUTH_USER_MODEL = 'accounts.User'
 
+DOCUSIGN_ENDPOINT = os.environ['DOCUSIGN_ENDPOINT']
+DOCUSIGN_USERNAME = os.environ['DOCUSIGN_USERNAME']
+DOCUSIGN_PASSWORD = os.environ['DOCUSIGN_PASSWORD']
+DOCUSIGN_TEMPLATE_ID = os.environ['DOCUSIGN_TEMPLATE_ID']
+DOCUSIGN_INTEGRATOR_KEY = os.environ['DOCUSIGN_INTEGRATOR_KEY']
 
 INSTALLED_APPS = (
     'django.contrib.admin',
