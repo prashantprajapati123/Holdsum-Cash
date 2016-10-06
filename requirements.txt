@@ -1,5 +1,6 @@
 Django==1.9.8
 PyJWT==1.4.2
+boto==2.42.0
 cffi==1.5.2
 cryptography==1.2.3
 defusedxml==0.4.1
@@ -11,6 +12,7 @@ django-model-utils==2.5.2
 django-nested-admin==3.0.10
 django-rest-auth==0.7.0
 django-solo==1.1.2
+django-storages==1.5.1
 djangorestframework==3.3.2
 gunicorn==19.4.5
 idna==2.1

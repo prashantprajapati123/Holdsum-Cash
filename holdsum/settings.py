@@ -20,6 +20,8 @@ DOCUSIGN_PASSWORD = os.environ['DOCUSIGN_PASSWORD']
 DOCUSIGN_TEMPLATE_ID = os.environ['DOCUSIGN_TEMPLATE_ID']
 DOCUSIGN_INTEGRATOR_KEY = os.environ['DOCUSIGN_INTEGRATOR_KEY']
 
+AWS_S3_FILE_OVERWRITE = False
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,6 +65,11 @@ if not DEBUG:
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_USER = os.environ['SENDGRID_USERNAME']
     SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 
 TEMPLATES = [
     {
