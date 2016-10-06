@@ -69,7 +69,7 @@ class User(AbstractUser):
     def completed_profile(self):
         return all([self.ssn, self.sex, self.address, self.city, self.state, self.zip_code,
                     self.monthly_income, self.next_paydate, self.funds_source, self.pay_frequency,
-                    self.license, self.zip_code])
+                    self.license, self.paystubs])
 
 
 class Employment(models.Model):
