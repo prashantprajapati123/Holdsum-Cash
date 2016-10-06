@@ -36,7 +36,7 @@ def on_create_plaid(created=False, instance=None, **kwargs):
     client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET,
                     access_token=instance.borrower.plaid_access_token)
     try:
-        transactions = client.connect_get().json()
+        transactions = client.connect_get().json()['transactions']
         instance.plaid_score = get_plaid_modifier(transactions)
         instance.plaid_state = PLAID_STATES.success
         instance.save()
