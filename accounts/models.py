@@ -39,7 +39,7 @@ PAY_FREQUENCY_CHOICES = Choices(
 
 
 class User(AbstractUser):
-    middle_initial = models.CharField(max_length=10)
+    middle_initial = models.CharField(max_length=10, blank=True)
     sex = models.CharField(max_length=10, choices=GENDER_CHOICES)
     ssn = EncryptedSSNField()
 

@@ -16,8 +16,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email',
-                  'sex', 'address', 'city', 'state', 'zip_code',
-                  'monthly_income', 'next_paydate', 'funds_source',
+                  'middle_initial', 'ssn', 'sex',
+                  'address', 'city', 'state', 'zip_code',
+                  'monthly_income', 'next_paydate', 'funds_source', 'pay_frequency',
                   'license', 'paystubs', 'employment_status', 'employment')
         read_only_fields = ('email',)
 
