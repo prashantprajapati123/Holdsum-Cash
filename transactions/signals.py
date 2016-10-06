@@ -20,9 +20,9 @@ COUNT_INSUFFICIENT_TO_SCORE = {
 
 
 def get_plaid_modifier(transactions):
-    log.warning('TRANSACTIONS: %s', transactions)
-    transactions = list(filter(lambda t: t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID, transactions))
-    return COUNT_INSUFFICIENT_TO_SCORE.get(len(transactions), MAXIMUM_INSUFFICENT_SCORE)
+    transactions = filter(lambda t: 'category_id' in t and t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID,
+                          transactions)
+    return COUNT_INSUFFICIENT_TO_SCORE.get(len(list(transactions)), MAXIMUM_INSUFFICENT_SCORE)
 
 
 def on_create_plaid(created=False, instance=None, **kwargs):
