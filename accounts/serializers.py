@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Employment, User, EMPLOYED
+from .models import Employment, User, EMPLOYMENT_CHOICES
 
 
 class EmploymentSerializer(serializers.ModelSerializer):
@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         employment = validated_data.pop('employment', None)
         instance = super().update(instance, validated_data)
-        if instance.employment_status in EMPLOYED and employment:
+        if instance.employment_status == EMPLOYMENT_CHOICES.employed:
             Employment.objects.update_or_create(
                 defaults=employment,
                 user=instance,

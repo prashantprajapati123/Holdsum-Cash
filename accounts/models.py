@@ -16,13 +16,9 @@ STATUS_CHOICES = Choices(
 
 
 EMPLOYMENT_CHOICES = Choices(
+    ('employed', 'Employed'),
     ('unemployed', 'Unemployed'),
-    ('selfemployed', 'Self Employed'),
-    ('fulltime', 'Full Time'),
-    ('parttime', 'Part Time'),
-    ('student', 'Student'),
 )
-EMPLOYED = (EMPLOYMENT_CHOICES.fulltime, EMPLOYMENT_CHOICES.parttime)
 
 
 GENDER_CHOICES = Choices(
@@ -32,9 +28,9 @@ GENDER_CHOICES = Choices(
 
 
 PAY_FREQUENCY_CHOICES = Choices(
+    ('weekly', 'Weekly'),
     ('monthly', 'Monthly'),
     ('biweekly', 'Bi-Weekly'),
-    ('bimonthly', 'Bi-Monthly'),
 )
 
 
