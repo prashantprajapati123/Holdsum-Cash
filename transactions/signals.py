@@ -20,7 +20,7 @@ COUNT_INSUFFICIENT_TO_SCORE = {
 
 
 def get_plaid_modifier(transactions):
-    transactions = filter(lambda t: t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID, transactions)
+    transactions = list(filter(lambda t: t['category_id'] == INSUFFICIENT_FUNDS_CATEGORY_ID, transactions))
     return COUNT_INSUFFICIENT_TO_SCORE.get(len(transactions), MAXIMUM_INSUFFICENT_SCORE)
 
 
