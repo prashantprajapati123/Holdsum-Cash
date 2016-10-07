@@ -21,6 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
                   'monthly_income', 'next_paydate', 'funds_source', 'pay_frequency',
                   'license', 'paystubs', 'employment_status', 'employment')
         read_only_fields = ('email',)
+        extra_kwargs = {'paystubs': {'write_only': True},
+                        'license': {'write_only': True}}
 
     def update(self, instance, validated_data):
         employment = validated_data.pop('employment', None)
