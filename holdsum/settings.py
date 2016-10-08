@@ -22,6 +22,7 @@ DOCUSIGN_INTEGRATOR_KEY = os.environ['DOCUSIGN_INTEGRATOR_KEY']
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = 'private'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -61,7 +62,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'holdsum.urls'
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 if not DEBUG:
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_USER = os.environ['SENDGRID_USERNAME']
