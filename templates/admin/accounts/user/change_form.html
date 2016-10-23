@@ -1,0 +1,37 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+<style>
+  .actionlink {
+    text-align: center;
+    width: 70px;
+  }
+
+  #approvelink {
+    background-color: #34CC84;
+    margin-right: 25px;
+  }
+
+  #approvelink:hover {
+    background-color: #23BB73;
+  }
+
+  #denylink {
+    background-color: #CC3434;
+  }
+
+  #denylink:hover {
+    background-color: #BB2323;
+  }
+
+</style>
+{% endblock %}
+
+{% block object-tools-items %}
+  {% if not original.status == 'approved' %}
+    <li><a class="actionlink" id="approvelink" href="{% url 'admin:approve' original.pk %}">Approve</a></li>
+  {% endif %}
+  {% if not original.status == 'denied' %}
+  <li><a class="actionlink" id="denylink" href="{% url 'admin:deny' original.pk %}">Deny</a></li>
+  {% endif %}
+{% endblock %}

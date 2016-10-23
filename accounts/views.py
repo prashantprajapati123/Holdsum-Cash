@@ -1,5 +1,8 @@
 import logging
 from django.conf import settings
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from plaid.errors import PlaidError
@@ -9,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from .models import User, STATUS_CHOICES
 from .plaidclient import Client
 
 log = logging.getLogger('plaid')
@@ -36,3 +40,19 @@ class PlaidTokenView(APIView):
             log.warning('Issue with Plaid! Code %s, Message: %s', e.code, e.message)
             return Response({'error': 'Something went wrong.'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def approve(request, uid):
+    user = User.objects.get(pk=uid)
+    user.status = STATUS_CHOICES.approved
+    user.save()
+    messages.success(request, '%s Approved' % user.get_full_name())
+    return HttpResponseRedirect(reverse('admin:accounts_user_changelist'))
+
+
+def deny(request, uid):
+    user = User.objects.get(pk=uid)
+    user.status = STATUS_CHOICES.denied
+    user.save()
+    messages.success(request, '%s Denied' % user.get_full_name())
+    return HttpResponseRedirect(reverse('admin:accounts_user_changelist'))

@@ -1,7 +1,9 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
 from .models import Employment, User
+from .views import approve, deny
 
 
 class EmploymentInline(admin.StackedInline):
@@ -11,6 +13,9 @@ class EmploymentInline(admin.StackedInline):
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     inlines = [EmploymentInline]
+    list_display = DjangoUserAdmin.list_display + ('status',)
+    readonly_fields = ('status',)
+    list_filter = ('status',)
 
     fieldsets = (
         (None,
@@ -25,3 +30,17 @@ class UserAdmin(DjangoUserAdmin):
         ('Documents',
             {'fields': ('license', 'paystubs')}),
     )
+
+    def get_urls(self):
+        return [
+            url(
+                r'^(.+)/approve/$',
+                self.admin_site.admin_view(approve),
+                name='approve',
+            ),
+            url(
+                r'^(.+)/deny/$',
+                self.admin_site.admin_view(deny),
+                name='deny',
+            ),
+        ] + super().get_urls()
