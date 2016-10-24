@@ -2,7 +2,6 @@ from model_utils import Choices
 
 
 LOAN_STATES = Choices(
-    ('rejected', 'Rejected'),
     ('pending', 'Pending'),
     ('awaiting_transfer', 'Awaiting Transfer'),
     ('in_repayment', 'In Repayment'),
