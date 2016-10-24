@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 from fernet_fields import EncryptedCharField
 from localflavor.us.models import USStateField, USZipCodeField
@@ -66,6 +66,9 @@ class User(AbstractUser):
         return all([self.ssn, self.sex, self.address, self.city, self.state, self.zip_code,
                     self.monthly_income, self.next_paydate, self.funds_source, self.pay_frequency,
                     self.license, self.paystubs])
+
+    def notify(self, subject, message, **kwargs):
+        self.email_user(subject, message)
 
 
 class Employment(models.Model):
