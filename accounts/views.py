@@ -46,7 +46,7 @@ def approve(request, uid):
     user = User.objects.get(pk=uid)
     user.status = STATUS_CHOICES.approved
     user.save()
-    user.notify('Your account has been approved!', '')
+    user.notify('Your account has been approved!', 'Congratulations! Your Holdsum account has been approved!')
     messages.success(request, '%s Approved' % user.get_full_name())
     return HttpResponseRedirect(reverse('admin:accounts_user_changelist'))
 
@@ -55,6 +55,6 @@ def deny(request, uid):
     user = User.objects.get(pk=uid)
     user.status = STATUS_CHOICES.denied
     user.save()
-    user.notify('Your account has been denied', '')
+    user.notify('Your account has been denied', 'Sorry, your Holdsum account has been denied.')
     messages.success(request, '%s Denied' % user.get_full_name())
     return HttpResponseRedirect(reverse('admin:accounts_user_changelist'))
