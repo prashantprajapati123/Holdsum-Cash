@@ -9,6 +9,7 @@ DEFAULT_FROM_EMAIL = 'hello@holdsum.com'
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', '0') == '1'
+HEROKU = os.getenv('HEROKU', '0') == '1'
 AUTH_USER_MODEL = 'accounts.User'
 
 PLAID_CLIENT_ID = os.environ['PLAID_CLIENT_ID']
@@ -64,7 +65,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'holdsum.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-if not DEBUG:
+if HEROKU:
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_USER = os.environ['SENDGRID_USERNAME']
     SENDGRID_PASSWORD = os.environ['SENDGRID_PASSWORD']
