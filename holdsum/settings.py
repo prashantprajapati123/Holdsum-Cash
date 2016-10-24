@@ -4,6 +4,7 @@ import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_FROM_EMAIL = 'hello@holdsum.com'
 
 
 SECRET_KEY = os.getenv('SECRET_KEY')
