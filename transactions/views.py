@@ -7,12 +7,12 @@ from .models import LoanRequest
 from .serializers import LoanRequestSerializer
 
 
-class LoanRequestViewSet(mixins.CreateModelMixin,
+class LoanRequestViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
                          viewsets.GenericViewSet):
     """
     A viewset for creating Loan Requests.
     """
-    permission_classes = [permissions.IsAuthenticated]
+#    permission_classes = [permissions.IsAuthenticated]
     serializer_class = LoanRequestSerializer
     queryset = LoanRequest.objects.all()
 
@@ -20,9 +20,19 @@ class LoanRequestViewSet(mixins.CreateModelMixin,
         if request.user.status != STATUS_CHOICES.approved:
             raise PermissionDenied
         return super().create(request, *args, **kwargs)
-
+    
+    
     @decorators.detail_route(methods=['POST'], url_path='signing-url')
     def signing_url(self, request, pk=None):
         lr = self.get_object()
         url = docusign.get_signing_url(lr)
         return response.Response(url)
+
+class UserLoanRequestsViewSet(viewsets.ViewSet):
+    queryset = LoanRequest.objects.select_related('borrower').all()
+    serializer_class = LoanRequestSerializer
+
+    def list(self, request, account_username=None):
+        queryset = self.queryset.filter(borrower__username=account_username)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
