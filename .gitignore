@@ -1,7 +1,10 @@
-*.iml
-.gradle
-/local.properties
-/.idea
-.DS_Store
-/build
-/captures
+venv
+.env
+*.pyc
+staticfiles
+.env
+db.sqlite3
+.vagrant
+*.swp
+.coverage
+media/

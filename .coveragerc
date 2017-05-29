@@ -1,0 +1,2 @@
+[report]
+omit = */migrations/*,holdsum/**,manage.py,**/tests.py
