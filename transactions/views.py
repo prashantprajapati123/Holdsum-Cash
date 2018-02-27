@@ -3,8 +3,8 @@ from rest_framework import decorators, mixins, permissions, response, viewsets
 
 from accounts.models import STATUS_CHOICES
 from . import docusign
-from .models import LoanRequest
-from .serializers import LoanRequestSerializer
+from .models import LoanRequest,QuestionResponse 
+from .serializers import LoanRequestSerializer,QuestionResponseSerializer
 
 
 class LoanRequestViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
@@ -36,3 +36,43 @@ class UserLoanRequestsViewSet(viewsets.ViewSet):
         queryset = self.queryset.filter(borrower__username=account_username)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+class QuestionResponseViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
+                         viewsets.GenericViewSet):
+    """
+    A viewset for creating Loan Requests.
+    """
+#    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = QuestionResponseSerializer
+    queryset = QuestionResponse.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
+
+class GetUserQuestionResponseViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
+                         viewsets.GenericViewSet):
+    """
+    A viewset for creating Loan Requests.
+    """
+#    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = QuestionResponseSerializer
+    queryset = QuestionResponse.objects.all()
+
+    def post(self, request, *args, **kwargs):
+
+        return super().create(request, *args, **kwargs)
+
+class GetUserQuestionResponseList(mixins.ListModelMixin,mixins.CreateModelMixin,
+                         viewsets.GenericViewSet):
+    serializer_class = QuestionResponseSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all models by
+        the maker passed in the URL
+        """
+        request_id = self.kwargs['request_id']
+        return QuestionResponse.objects.filter(request=request_id)
+    

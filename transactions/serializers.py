@@ -7,7 +7,13 @@ class QuestionResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionResponse
-        fields = ('choice', 'textbox')
+        fields = ('request','choice', 'textbox')
+
+    def create(self, validated_data):
+        """
+        Create and return a new `QuestionResponse` instance, given the validated data.
+        """
+        return QuestionResponse.objects.create(**validated_data)
 
 
 class LoanRequestSerializer(serializers.ModelSerializer):
