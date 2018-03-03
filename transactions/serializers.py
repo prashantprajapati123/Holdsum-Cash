@@ -7,30 +7,24 @@ class QuestionResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionResponse
-        fields = ('request','choice', 'textbox')
-
-    def create(self, validated_data):
-        """
-        Create and return a new `QuestionResponse` instance, given the validated data.
-        """
-        return QuestionResponse.objects.create(**validated_data)
+        fields = ('choice', 'textbox')
 
 
 class LoanRequestSerializer(serializers.ModelSerializer):
     borrower = serializers.HiddenField(default=serializers.CurrentUserDefault())
-#    responses = QuestionResponseSerializer(many=True)
+    responses = QuestionResponseSerializer(many=True)
     exclude = ('responses',)
     class Meta:
         model = LoanRequest
-        fields = ('id', 'borrower', 'amount', 'repayment_date')#, 'responses')
+        fields = ('id', 'borrower', 'amount', 'repayment_date', 'responses')
         readonly_fields = ('id', 'borrower',)
 
     def create(self, data):
-#        responses = data.pop('responses')
+        responses = data.pop('responses')
         lr = LoanRequest.objects.create(**data)
-#        for response in responses:
-#           QuestionResponse.objects.create(
-#                request=lr,
-#                **response
-#            )
+        for response in responses:
+            QuestionResponse.objects.create(
+               request=lr,
+               **response
+           )
         return lr
