@@ -42,7 +42,6 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, data):
-        import pdb;pdb.set_trace()
         response = data.pop('employment')
         del response['user']
         user = User.objects.create(**data)
@@ -62,7 +61,7 @@ class UserSerializer(serializers.ModelSerializer):
         try:
             client.exchange_token(user.plaid_public_token)  # this populates client.access_token
             user.plaid_access_token = client.access_token
-            request.user.save()
+            user.save()
 
             client.upgrade('connect')
             return Response(status=status.HTTP_204_NO_CONTENT)
