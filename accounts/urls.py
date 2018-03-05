@@ -1,14 +1,8 @@
-from django.conf.urls import include, url
+from django.conf.urls import url
 
-
-from .views import PlaidTokenView,UserRegistrationViewSet
-from rest_framework.routers import DefaultRouter
-router = DefaultRouter()
-router.register(r'sign-up', UserRegistrationViewSet, base_name='user_sign_up')
-
+from .views import PlaidTokenView
 
 
 urlpatterns = [
-	url('', include(router.urls)),
-    
+    url(r'plaid-token/$', PlaidTokenView.as_view(), name='exchange_plaid_token'),
 ]
