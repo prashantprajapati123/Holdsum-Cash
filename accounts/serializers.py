@@ -23,12 +23,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id','first_name', 'last_name', 'email',
                   'middle_initial', 'ssn', 'sex',
                   'address', 'city', 'state', 'zip_code',
-                  'monthly_income', 'plaid_public_token', 'next_paydate', 'funds_source', 'pay_frequency',
+                  'monthly_income','next_paydate', 'plaid_public_token','funds_source', 'pay_frequency',
                   'license', 'paystubs', 'employment_status', 'employment',
                   'status',)
         read_only_fields = ('email', 'status')
         extra_kwargs = {'paystubs': {'write_only': True},
                         'license': {'write_only': True}}
+    
 
     def update(self, instance, validated_data):
         employment = validated_data.pop('employment', None)
@@ -40,7 +41,9 @@ class UserSerializer(serializers.ModelSerializer):
             )
         return instance
 
-    
+       
+
+
 
 class LoginResponseSerializer(serializers.Serializer):
 
@@ -49,5 +52,5 @@ class LoginResponseSerializer(serializers.Serializer):
         return {
             'key': obj.key,
             'has_profile': user.completed_profile,
-            'has_plaid': bool(user.plaid_public_token)
+            'has_plaid': bool(user.plaid_access_token)
         }

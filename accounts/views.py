@@ -15,6 +15,12 @@ from rest_framework.views import APIView
 from .models import User, STATUS_CHOICES
 from .plaidclient import Client
 
+
+from .serializers import UserSerializer
+from rest_framework import decorators, mixins, permissions, response, viewsets
+
+
+
 log = logging.getLogger('plaid')
 
 
@@ -26,15 +32,14 @@ class PlaidTokenView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET)
+        
+        public_token = request.data['token']
+        client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET, public_key=settings.PLAID_PUBLIC_KEY, environment='sandbox')
         try:
-            client.exchange_token(request.data['token'])  # this populates client.access_token
-
-            request.user.plaid_access_token = client.access_token
-            request.user.plaid_public_token = request.data['token']
+            response = client.Item.public_token.exchange(public_token)
+            request.user.plaid_access_token = response['access_token']
+            request.user.plaid_public_token = public_token
             request.user.save()
-
-            client.upgrade('connect')
             return Response(status=status.HTTP_204_NO_CONTENT)
         except PlaidError as e:
             log.warning('Issue with Plaid! Code %s, Message: %s', e.code, e.message)
@@ -58,3 +63,5 @@ def deny(request, uid):
     user.notify('Your account has been denied', 'Sorry, your Holdsum account has been denied.')
     messages.success(request, '%s Denied' % user.get_full_name())
     return HttpResponseRedirect(reverse('admin:accounts_user_changelist'))
+
+

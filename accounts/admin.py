@@ -26,7 +26,7 @@ class UserAdmin(DjangoUserAdmin):
             {'fields': ('address', 'city', 'state', 'zip_code')}),
         ('Income Data',
             {'fields':
-                ('monthly_income', 'plaid_public_token','plaid_access_token','next_paydate', 'funds_source', 'pay_frequency')}),
+                ('monthly_income','next_paydate', 'funds_source', 'pay_frequency','plaid_public_token','plaid_access_token')}),
         ('Documents',
             {'fields': ('license', 'paystubs')}),
     )
