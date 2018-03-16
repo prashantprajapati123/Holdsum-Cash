@@ -8,7 +8,7 @@ DEFAULT_FROM_EMAIL = 'hello@holdsum.com'
 
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', '0') == '1'
+DEBUG = True#os.getenv('DEBUG', '0') == '1'
 HEROKU = os.getenv('HEROKU', '0') == '1'
 AUTH_USER_MODEL = 'accounts.User'
 
