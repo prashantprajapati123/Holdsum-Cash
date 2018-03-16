@@ -74,7 +74,7 @@ def do_recipient(lr, account, envelopeURI):
     r.raise_for_status()
     return r.json()
 
-
+#fixed
 def get_signing_url(lr):
     account = login()
     envelope = make_envelope(lr, account)
