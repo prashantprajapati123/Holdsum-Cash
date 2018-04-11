@@ -29,6 +29,9 @@ class UserAdmin(DjangoUserAdmin):
                 ('monthly_income','next_paydate', 'funds_source', 'pay_frequency','plaid_public_token','plaid_access_token')}),
         ('Documents',
             {'fields': ('license', 'paystubs')}),
+        ('Scoring',
+            {'fields': ('no_of_failed_transection', 'plaid_score','questionnaire_score','repayment_score')}),
+        
     )
 
     def get_urls(self):

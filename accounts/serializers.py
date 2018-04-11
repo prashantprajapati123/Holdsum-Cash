@@ -49,6 +49,8 @@ class LoginResponseSerializer(serializers.Serializer):
 
     def to_representation(self, obj):
         user = obj.user
+
+        print("===================",bool(user.plaid_access_token))
         return {
             'key': obj.key,
             'has_profile': user.completed_profile,

@@ -57,6 +57,11 @@ class User(AbstractUser):
     plaid_access_token = EncryptedCharField(max_length=200, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES,
                               default=STATUS_CHOICES.pending)
+    no_of_failed_transection = models.IntegerField(null=True)
+    plaid_score = models.DecimalField(max_digits=10, decimal_places=2, null=True,default=0 )
+    questionnaire_score = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
+    repayment_score = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
+
 
     def __str__(self):
         return '{self.first_name}, {self.last_name}'.format(self=self)
