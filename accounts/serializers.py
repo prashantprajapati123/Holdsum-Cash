@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
                   'address', 'city', 'state', 'zip_code',
                   'monthly_income','next_paydate', 'plaid_public_token','funds_source', 'pay_frequency',
                   'license', 'paystubs', 'employment_status', 'employment',
-                  'status',)
+                  'status','access_type',)
         read_only_fields = ('email', 'status')
         extra_kwargs = {'paystubs': {'write_only': True},
                         'license': {'write_only': True}}

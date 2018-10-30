@@ -33,6 +33,11 @@ PAY_FREQUENCY_CHOICES = Choices(
     ('biweekly', 'Bi-Weekly'),
 )
 
+USER_ACCESS_TYPE_CHOICES = Choices(
+    ('borrower', 'Borrower'),
+    ('lender', 'Lender'),
+)
+
 
 class User(AbstractUser):
     middle_initial = models.CharField(max_length=10, blank=True)
@@ -61,6 +66,8 @@ class User(AbstractUser):
     plaid_score = models.DecimalField(max_digits=10, decimal_places=2, null=True,default=0 )
     questionnaire_score = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     repayment_score = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
+    access_type = models.CharField(max_length=10, choices=USER_ACCESS_TYPE_CHOICES,
+                              default=USER_ACCESS_TYPE_CHOICES.borrower)
 
 
     def __str__(self):
