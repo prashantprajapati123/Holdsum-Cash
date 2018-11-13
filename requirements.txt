@@ -19,7 +19,7 @@ idna==2.1
 ipdb==0.10.1
 oauthlib==1.1.2
 plaid-python==2.2.0
-psycopg2==2.6.1
+psycopg2==2.7.1
 pyasn1==0.1.9
 pycparser==2.14
 python-social-auth==0.2.14
