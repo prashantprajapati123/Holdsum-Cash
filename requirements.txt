@@ -18,10 +18,10 @@ gunicorn==19.4.5
 idna==2.1
 ipdb==0.10.1
 oauthlib==1.1.2
-plaid-python==2.2.0
-psycopg2==2.7.1
+plaid-python==1.4.0
+psycopg2==2.6.1
 pyasn1==0.1.9
-pycparser
+pycparser==2.14
 python-social-auth==0.2.14
 python3-openid==3.0.10
 requests==2.9.1
