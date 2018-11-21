@@ -172,3 +172,8 @@ try:
     }
 except ImportError:
     pass
+
+# rest auth settings for registrations.
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
+}
