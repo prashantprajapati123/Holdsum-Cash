@@ -7,21 +7,21 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_FROM_EMAIL = 'hello@holdsum.com'
 
 
-SECRET_KEY  =  'u&udm$tcq*o%_um)nqnpb2m3*&d+oq2uz&ga&qux$+n%z^z+l)'#os.getenv('SECRET_KEY')
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = True#os.getenv('DEBUG', '0') == '1'
 HEROKU = os.getenv('HEROKU', '0') == '1'
 AUTH_USER_MODEL = 'accounts.User'
 
-PLAID_CLIENT_ID = '57d51235bb37a5b31b081123'#os.environ['PLAID_CLIENT_ID']
-PLAID_SECRET = '05ad0a781b903ef5fe2575fdef3c82'#os.environ['PLAID_SECRET']
-# PLAID_ENDPOINT = os.environ['PLAID_ENDPOINT']
+PLAID_CLIENT_ID = os.environ['PLAID_CLIENT_ID']
+PLAID_SECRET = os.environ['PLAID_SECRET']
+PLAID_ENDPOINT = os.environ['PLAID_ENDPOINT']
 PLAID_PUBLIC_KEY = '05e2e2ea696e8a6cd19a8433d34109'
 
-DOCUSIGN_USERNAME = 'Nwebb@Holdsum.com'
-DOCUSIGN_PASSWORD = 'Gigsterdev04'
-DOCUSIGN_TEMPLATE_ID= 'f5a3dfd8-7dd2-427a-a400-d8dd1ea34911'
-DOCUSIGN_INTEGRATOR_KEY= 'fc45bb5f-c07a-4554-95ea-3ff5ec975e42'
-DOCUSIGN_ENDPOINT = 'https://demo.docusign.net/restapi/v2/login_information'
+DOCUSIGN_ENDPOINT = os.environ['DOCUSIGN_ENDPOINT']
+DOCUSIGN_USERNAME = os.environ['DOCUSIGN_USERNAME']
+DOCUSIGN_PASSWORD = os.environ['DOCUSIGN_PASSWORD']
+DOCUSIGN_TEMPLATE_ID = os.environ['DOCUSIGN_TEMPLATE_ID']
+DOCUSIGN_INTEGRATOR_KEY = os.environ['DOCUSIGN_INTEGRATOR_KEY']
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = 'private'
@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     # Apps
     'accounts',
     'transactions',
-    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,18 +98,8 @@ WSGI_APPLICATION = 'holdsum.wsgi.application'
 
 # Databases
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hold',
-        'USER': 'postgres',
-        'PASSWORD':'root',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config()
 
 # Password validation
 
@@ -136,7 +125,6 @@ REST_AUTH_SERIALIZERS = {
 }
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -159,7 +147,7 @@ SITE_ID = 1
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['*']#os.getenv('ALLOWED_HOSTS').split('|')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split('|')
 
 # Static files (CSS, JavaScript, Images)
 
@@ -184,9 +172,3 @@ try:
     }
 except ImportError:
     pass
-
-# rest auth settings for registrations.
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'accounts.serializers.RegistrationSerializer',
-}
-
