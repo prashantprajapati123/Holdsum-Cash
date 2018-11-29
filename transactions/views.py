@@ -19,11 +19,6 @@ log = logging.getLogger('plaid')
 from accounts.models import User
 
 
-
-
-
-
-
 class LoanRequestViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
                          viewsets.GenericViewSet):
     """
@@ -51,7 +46,6 @@ class LoanRequestViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
         for the currently authenticated user.
         """
         user = self.request.user
-        #user = User.objects.get(username='pihu')
         return LoanRequest.objects.filter(borrower=user)
 
 class UserLoanRequestsViewSet(viewsets.ViewSet):
@@ -189,3 +183,19 @@ class GetUserScoreDetails(APIView):
             self.request.user.status = 'denied'
             self.request.user.save()
             return 'declined'
+
+
+class LoanRequestFilterViewSets(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    A viewset for filtering Loan Requests.
+    """
+    #permission_classes = [permissions.IsAuthenticated]
+    serializer_class = LoanRequestSerializer
+    queryset = LoanRequest.objects.all()
+    
+    def get_queryset(self):
+        """
+        This view should return a list of all the LoanRequest
+        for the currently authenticated user.
+        """
+        return LoanRequest.objects.all()
