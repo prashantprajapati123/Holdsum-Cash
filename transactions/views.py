@@ -194,8 +194,19 @@ class LoanRequestFilterViewSets(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = LoanRequest.objects.all()
     
     def get_queryset(self):
+        data = self.request.GET
+        query_set = LoanRequest.objects.all()
+        if data.get('amount'):
+            query_set= query_set.filter(amount=data['amount'])
+
+        if data.get('state'):
+            query_set= query_set.filter(state=data['state'])
+
+        if data.get('date'):
+            date = datetime.datetime.strptime(data['date'], '%Y-%m-%d')
+            query_set= query_set.filter(repayment_date=date)
         """
         This view should return a list of all the LoanRequest
         for the currently authenticated user.
         """
-        return LoanRequest.objects.all()
+        return query_set
