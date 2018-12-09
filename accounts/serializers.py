@@ -74,3 +74,12 @@ class RegistrationSerializer(RegisterSerializer):
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
         return user
+
+
+class BorrowerSerializer(serializers.ModelSerializer):
+    employment = EmploymentSerializer(required=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'employment_status', 'employment','status',
+                  'no_of_failed_transection','plaid_score', 'repayment_score')

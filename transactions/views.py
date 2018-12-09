@@ -4,7 +4,11 @@ from rest_framework import decorators, mixins, permissions, response, viewsets
 from accounts.models import STATUS_CHOICES
 from . import docusign
 from .models import LoanRequest,QuestionResponse,Choice 
-from .serializers import LoanRequestSerializer,QuestionResponseSerializer
+from .serializers import ( 
+    LoanRequestSerializer,
+    QuestionResponseSerializer,
+    SearchLoanRequestSerializer,
+    )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.conf import settings
@@ -17,6 +21,7 @@ import datetime
 import logging
 log = logging.getLogger('plaid')
 from accounts.models import User
+from .constants import LOAN_STATES
 
 
 class LoanRequestViewSet(mixins.ListModelMixin, mixins.CreateModelMixin,
@@ -190,12 +195,12 @@ class LoanRequestFilterViewSets(mixins.ListModelMixin, viewsets.GenericViewSet):
     A viewset for filtering Loan Requests.
     """
     #permission_classes = [permissions.IsAuthenticated]
-    serializer_class = LoanRequestSerializer
+    serializer_class = SearchLoanRequestSerializer
     queryset = LoanRequest.objects.all()
     
     def get_queryset(self):
         data = self.request.GET
-        query_set = LoanRequest.objects.all()
+        query_set = LoanRequest.objects.filter(state=LOAN_STATES.pending)
         if data.get('amount'):
             query_set= query_set.filter(amount=data['amount'])
 

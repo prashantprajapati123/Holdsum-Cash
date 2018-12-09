@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from .models import LoanRequest, QuestionResponse
+from accounts.serializers import BorrowerSerializer
+
 
 
 class QuestionResponseSerializer(serializers.ModelSerializer):
@@ -28,3 +30,9 @@ class LoanRequestSerializer(serializers.ModelSerializer):
                **response
            )
         return lr
+
+class SearchLoanRequestSerializer(serializers.ModelSerializer):
+    borrower = BorrowerSerializer(required=False)
+    class Meta:
+        model = LoanRequest
+        fields = ('id', 'borrower', 'amount', 'repayment_date', 'state')
