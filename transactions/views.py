@@ -105,7 +105,7 @@ class GetUserQuestionResponseList(mixins.ListModelMixin,mixins.CreateModelMixin,
 
 
 class GetUserScoreDetails(APIView):
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         try:
@@ -194,7 +194,7 @@ class LoanRequestFilterViewSets(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     A viewset for filtering Loan Requests.
     """
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = SearchLoanRequestSerializer
     queryset = LoanRequest.objects.all()
     
@@ -215,3 +215,33 @@ class LoanRequestFilterViewSets(mixins.ListModelMixin, viewsets.GenericViewSet):
         for the currently authenticated user.
         """
         return query_set
+
+
+
+class FailedTransectionsList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        public_token = request.data['token']
+        username = request.data['username']
+        try:
+            user = User.objects.get(username='username')
+        except:
+            return Response({'error': 'username does not exsist.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            client = Client(client_id=settings.PLAID_CLIENT_ID, secret=settings.PLAID_SECRET, public_key=settings.PLAID_PUBLIC_KEY, environment='sandbox')
+            response = client.Item.public_token.exchange(public_token)
+            user.plaid_access_token = response['access_token']
+            user.plaid_public_token = public_token
+            user.save()
+            start_date = "{:%Y-%m-%d}".format(datetime.datetime.now() + datetime.timedelta(-30))
+            end_date = "{:%Y-%m-%d}".format(datetime.datetime.now())
+            response = client.Transactions.get(user.plaid_access_token, start_date=start_date, end_date=end_date)
+            transactions = response['transactions']
+            return Response({'transactions':transactions})
+        except PlaidError as e:
+            log.warning('Issue with Plaid! Code %s, Message: %s', e.code, e.message)
+            return Response({'error': 'Something went wrong.'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)

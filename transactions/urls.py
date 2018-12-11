@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from .views import LoanRequestViewSet, LoanRequestFilterViewSets
+from .views import LoanRequestViewSet, LoanRequestFilterViewSets, FailedTransectionsList
 from .views import UserLoanRequestsViewSet, QuestionResponseViewSet, GetUserQuestionResponseList,GetUserScoreDetails
 
 router = DefaultRouter()
@@ -21,5 +21,7 @@ router.register(r'search-loan-request', LoanRequestFilterViewSets, base_name='se
 urlpatterns = [
     url('', include(router.urls)),
     url(r'get-user-score/$', GetUserScoreDetails.as_view(), name='get_user_score'),
+    url(r'get-failed-transections/$', FailedTransectionsList.as_view(), name='get_failed_transection'),
+
 
 ]
